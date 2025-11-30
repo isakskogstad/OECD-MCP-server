@@ -7,6 +7,9 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
+# Copy README.md for landing page
+COPY README.md ./
+
 # Copy source code BEFORE installing (prepare script needs it)
 COPY src/ ./src/
 
