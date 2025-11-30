@@ -7,14 +7,12 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Install ALL dependencies (including TypeScript for building)
-RUN npm ci
-
-# Copy source code
+# Copy source code BEFORE installing (prepare script needs it)
 COPY src/ ./src/
 
-# Build TypeScript
-RUN npm run build
+# Install ALL dependencies (including TypeScript for building)
+# The prepare script will run automatically and build the project
+RUN npm ci
 
 # Remove dev dependencies to reduce image size
 RUN npm prune --production
