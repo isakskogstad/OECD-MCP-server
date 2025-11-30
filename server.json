@@ -9,17 +9,6 @@
     "url": "https://github.com/isakskogstad/OECD-MCP-server",
     "source": "github"
   },
-  "packages": [
-    {
-      "registryType": "npm",
-      "identifier": "oecd-mcp-server",
-      "version": "3.0.0",
-      "transport": {
-        "type": "stdio"
-      },
-      "runtimeHint": "node"
-    }
-  ],
   "remotes": [
     {
       "type": "streamable-http",
