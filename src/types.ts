@@ -35,30 +35,31 @@ export interface IndicatorSearch {
 }
 
 // OECD Data Categories
+// NOTE: exampleDatasets ONLY includes actually implemented dataflows (see known-dataflows.ts)
 export const OECD_CATEGORIES: OECDCategory[] = [
   {
     id: 'ECO',
     name: 'Economy',
     description: 'GDP, growth, inflation, interest rates, economic forecasts',
-    exampleDatasets: ['QNA', 'MEI', 'EO'],
+    exampleDatasets: ['QNA', 'MEI'], // Quarterly National Accounts, Main Economic Indicators
   },
   {
     id: 'HEA',
     name: 'Health',
     description: 'Healthcare spending, life expectancy, health outcomes',
-    exampleDatasets: ['HEALTH_STAT', 'SHA', 'HEALTH_LVNG'],
+    exampleDatasets: ['HEALTH_STAT'], // Health Statistics - Perceived Health Status
   },
   {
     id: 'EDU',
     name: 'Education',
     description: 'PISA results, education spending, educational attainment',
-    exampleDatasets: ['PISA', 'EAG', 'EDU_DEC'],
+    exampleDatasets: [], // PISA not available via SDMX API (downloadable files only)
   },
   {
     id: 'ENV',
     name: 'Environment',
     description: 'Climate, emissions, pollution, green growth, biodiversity',
-    exampleDatasets: ['GREEN_GROWTH', 'AIR_GHG', 'CIRCLE'],
+    exampleDatasets: ['DF_LAND_TEMP', 'DF_HEAT_STRESS', 'DF_COASTAL_FLOOD', 'DF_RIVER_FLOOD', 'DF_DROUGHT', 'DF_FIRES', 'DF_PRECIP', 'DF_CLIM_PROJ'], // Climate indicators for cities
   },
   {
     id: 'TRD',
@@ -141,65 +142,70 @@ export const OECD_CATEGORIES: OECDCategory[] = [
 ];
 
 // Popular OECD Datasets
+// NOTE: This list includes both AVAILABLE (✅) and UNAVAILABLE (❌) datasets via SDMX API
+// See known-dataflows.ts for actually implemented dataflows
 export const POPULAR_DATASETS: PopularDataset[] = [
+  // ✅ AVAILABLE via SDMX API
   {
     id: 'QNA',
     name: 'Quarterly National Accounts',
-    description: 'GDP and main aggregates, quarterly frequency',
+    description: '✅ AVAILABLE - GDP and main aggregates, quarterly frequency',
     category: 'ECO',
   },
   {
     id: 'MEI',
     name: 'Main Economic Indicators',
-    description: 'CPI, unemployment, production indices, monthly data',
-    category: 'ECO',
-  },
-  {
-    id: 'EO',
-    name: 'Economic Outlook',
-    description: 'Economic projections and forecasts',
+    description: '✅ AVAILABLE - Composite Leading Indicators (CLI), monthly frequency',
     category: 'ECO',
   },
   {
     id: 'HEALTH_STAT',
     name: 'Health Statistics',
-    description: 'Health status, healthcare resources, utilization',
+    description: '✅ AVAILABLE - Perceived health status by age and gender',
     category: 'HEA',
+  },
+
+  // ❌ NOT YET IMPLEMENTED or NOT AVAILABLE via SDMX API
+  {
+    id: 'EO',
+    name: 'Economic Outlook',
+    description: '⏳ NOT YET IMPLEMENTED - Economic projections and forecasts',
+    category: 'ECO',
   },
   {
     id: 'PISA',
     name: 'PISA Results',
-    description: 'Student assessment in reading, mathematics, science',
+    description: '❌ NOT AVAILABLE via SDMX - Available as downloadable files only from OECD website',
     category: 'EDU',
   },
   {
     id: 'UN_DEN',
     name: 'Unemployment by Duration',
-    description: 'Unemployment statistics by duration and demographics',
+    description: '⏳ NOT YET IMPLEMENTED - Unemployment statistics by duration',
     category: 'JOB',
   },
   {
     id: 'GREEN_GROWTH',
     name: 'Green Growth Indicators',
-    description: 'Environmental and economic indicators for green growth',
+    description: '⏳ NOT YET IMPLEMENTED - Environmental and economic indicators',
     category: 'ENV',
   },
   {
     id: 'CTS',
     name: 'Trade in Services',
-    description: 'International trade in services by category',
+    description: '⏳ NOT YET IMPLEMENTED - International trade in services',
     category: 'TRD',
   },
   {
     id: 'FDI',
     name: 'Foreign Direct Investment',
-    description: 'FDI flows and stocks by country',
+    description: '⏳ NOT YET IMPLEMENTED - FDI flows and stocks by country',
     category: 'FIN',
   },
   {
     id: 'REV',
     name: 'Revenue Statistics',
-    description: 'Tax revenues by type and level of government',
+    description: '⏳ NOT YET IMPLEMENTED - Tax revenues by type and government level',
     category: 'TAX',
   },
 ];

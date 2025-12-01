@@ -126,7 +126,6 @@ export class OECDSDMXClient {
       throw new Error(`Unknown dataflow: ${dataflowId}. Use listDataflows() to see available dataflows.`);
     }
 
-    const version = options.version || knownDf.version;
     const params = new URLSearchParams({
       format: 'jsondata',
     });
@@ -135,8 +134,9 @@ export class OECDSDMXClient {
     if (options.endPeriod) params.append('endPeriod', options.endPeriod);
     if (options.lastNObservations) params.append('lastNObservations', options.lastNObservations.toString());
 
-    // Format: /data/{AGENCY},{DSD_ID}@{DF_ID},{VERSION}/{filter}
-    const url = `${this.baseUrl}/data/${knownDf.agency},${knownDf.fullId},${version}/${filter}?${params.toString()}`;
+    // Format: /data/{AGENCY},{DSD_ID}@{DF_ID}/{filter}
+    // NOTE: Version parameter omitted - OECD SDMX API doesn't require/accept it for most dataflows
+    const url = `${this.baseUrl}/data/${knownDf.agency},${knownDf.fullId}/${filter}?${params.toString()}`;
 
     const response = await fetch(url, {
       headers: {

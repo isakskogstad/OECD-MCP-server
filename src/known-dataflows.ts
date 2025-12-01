@@ -21,7 +21,44 @@ export interface KnownDataflow {
  * These have been verified to work with the SDMX API structure endpoints
  */
 export const KNOWN_DATAFLOWS: KnownDataflow[] = [
-  // Regional/Urban Statistics (OECD.CFE.EDS - Functional Urban Areas)
+  // ========================================
+  // ECONOMIC INDICATORS (OECD.SDD.NAD, OECD.SDD.STES)
+  // ========================================
+  {
+    id: 'QNA',
+    fullId: 'DSD_NAMAIN1@DF_QNA',
+    agency: 'OECD.SDD.NAD',
+    version: '1.0',
+    name: 'Quarterly National Accounts',
+    description: 'GDP and main aggregates - quarterly frequency. Includes GDP, consumption, investment, government spending by country and quarter.',
+    category: 'ECO',
+  },
+  {
+    id: 'MEI',
+    fullId: 'DSD_STES@DF_CLI',
+    agency: 'OECD.SDD.STES',
+    version: '1.0',
+    name: 'Main Economic Indicators - Composite Leading Indicators',
+    description: 'Composite Leading Indicators (CLI) designed to provide early signals of turning points in business cycles. Monthly frequency.',
+    category: 'ECO',
+  },
+
+  // ========================================
+  // HEALTH STATISTICS (OECD.ELS.HD)
+  // ========================================
+  {
+    id: 'HEALTH_STAT',
+    fullId: 'DSD_HEALTH_STAT@DF_PHS',
+    agency: 'OECD.ELS.HD',
+    version: '1.0',
+    name: 'Health Statistics - Perceived Health Status',
+    description: 'Percentage of population aged 15+ reporting good/very good health status, by age and gender.',
+    category: 'HEA',
+  },
+
+  // ========================================
+  // CLIMATE & ENVIRONMENT (OECD.CFE.EDS - Functional Urban Areas)
+  // ========================================
   {
     id: 'DF_LAND_TEMP',
     fullId: 'DSD_FUA_CLIM@DF_LAND_TEMP',
