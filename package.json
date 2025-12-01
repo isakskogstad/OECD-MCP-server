@@ -1,7 +1,7 @@
 {
-  "name": "oecd-mcp-server",
+  "name": "oecd-mcp",
   "version": "3.0.0",
-  "description": "Model Context Protocol server for OECD statistical data via SDMX API",
+  "description": "OECD MCP - Model Context Protocol server for OECD statistical data via SDMX API",
   "mcpName": "io.github.isakskogstad/oecd-mcp",
   "main": "dist/index.js",
   "type": "module",

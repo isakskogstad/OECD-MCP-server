@@ -56,14 +56,18 @@ Model Context Protocol (MCP) server providing access to OECD statistical data vi
 
 ## MCP Registry Publishing ✅ PUBLISHED
 - **Server Name:** io.github.isakskogstad/oecd-mcp
+- **npm Package:** oecd-mcp
 - **Version:** 3.0.0
-- **Status:** 🟢 Active in MCP Registry
+- **Status:** 🟢 Active in MCP Registry & npm
 - **Published:** 2025-11-30 23:53:18 UTC
-- **Deployment Type:** Remote-only (Streamable HTTP + SSE)
+- **npm Published:** 2025-12-01 00:04:00 UTC
+- **Deployment Type:** Remote + npm package
 - **Registry URL:** https://registry.modelcontextprotocol.io/v0/servers?search=io.github.isakskogstad/oecd-mcp
+- **npm URL:** https://www.npmjs.com/package/oecd-mcp
 - **Registry File:** server.json
 
 **Available via:**
+- npm package: `npx oecd-mcp`
 - Streamable HTTP: https://oecd-mcp-server.onrender.com/mcp
 - SSE (legacy): https://oecd-mcp-server.onrender.com/sse
 
