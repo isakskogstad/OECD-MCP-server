@@ -4,9 +4,9 @@
   "title": "OECD MCP Server",
   "description": "OECD economic and statistical data via SDMX API. Access 5,000+ datasets across 17 categories.",
   "version": "3.0.0",
-  "websiteUrl": "https://github.com/isakskogstad/OECD-MCP-server",
+  "websiteUrl": "https://github.com/isakskogstad/OECD-MCP",
   "repository": {
-    "url": "https://github.com/isakskogstad/OECD-MCP-server",
+    "url": "https://github.com/isakskogstad/OECD-MCP",
     "source": "github"
   },
   "remotes": [

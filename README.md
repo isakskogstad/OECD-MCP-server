@@ -9,7 +9,7 @@
 [![npm version](https://img.shields.io/npm/v/oecd-mcp.svg)](https://www.npmjs.com/package/oecd-mcp)
 [![MCP Registry](https://img.shields.io/badge/MCP-Registry-green.svg)](https://registry.modelcontextprotocol.io/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![API Monitoring](https://github.com/isakskogstad/OECD-MCP-server/actions/workflows/api-monitoring.yml/badge.svg)](https://github.com/isakskogstad/OECD-MCP-server/actions/workflows/api-monitoring.yml)
+[![API Monitoring](https://github.com/isakskogstad/OECD-MCP/actions/workflows/api-monitoring.yml/badge.svg)](https://github.com/isakskogstad/OECD-MCP/actions/workflows/api-monitoring.yml)
 
 **MCP server for OECD economic and statistical data via SDMX API.**
 
@@ -593,7 +593,7 @@ The server includes automated API monitoring via GitHub Actions:
 - **Automatic issue closure** when tests pass again
 - **Manual workflow trigger** for on-demand testing
 
-[![API Monitoring](https://github.com/isakskogstad/OECD-MCP-server/actions/workflows/api-monitoring.yml/badge.svg)](https://github.com/isakskogstad/OECD-MCP-server/actions/workflows/api-monitoring.yml)
+[![API Monitoring](https://github.com/isakskogstad/OECD-MCP/actions/workflows/api-monitoring.yml/badge.svg)](https://github.com/isakskogstad/OECD-MCP/actions/workflows/api-monitoring.yml)
 
 ---
 
@@ -710,7 +710,7 @@ Created by Isak Skogstad
 
 ## Support
 
-- **Issues**: [GitHub Issues](https://github.com/isakskogstad/OECD-MCP-server/issues)
+- **Issues**: [GitHub Issues](https://github.com/isakskogstad/OECD-MCP/issues)
 - **OECD Data Portal**: https://data.oecd.org/
 - **SDMX Documentation**: https://sdmx.org/
 - **MCP Documentation**: https://modelcontextprotocol.io/

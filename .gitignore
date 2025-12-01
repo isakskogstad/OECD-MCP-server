@@ -26,3 +26,7 @@ coverage/
 
 # Auto-generated API types
 src/types/generated/
+
+# MCP Registry tokens
+.mcpregistry_github_token
+.mcpregistry_registry_token
