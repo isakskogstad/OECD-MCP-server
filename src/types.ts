@@ -59,7 +59,7 @@ export const OECD_CATEGORIES: OECDCategory[] = [
     id: 'ENV',
     name: 'Environment',
     description: 'Climate, emissions, pollution, green growth, biodiversity',
-    exampleDatasets: ['DF_LAND_TEMP', 'DF_HEAT_STRESS', 'DF_COASTAL_FLOOD', 'DF_RIVER_FLOOD', 'DF_DROUGHT', 'DF_FIRES', 'DF_PRECIP', 'DF_CLIM_PROJ'], // Climate indicators for cities
+    exampleDatasets: ['DF_LAND_TEMP', 'DF_HEAT_STRESS', 'DF_COASTAL_FLOOD', 'DF_RIVER_FLOOD', 'DF_DROUGHT', 'DF_FIRES', 'DF_PRECIP', 'DF_CLIM_PROJ', 'GREEN_GROWTH'], // Climate indicators for cities + Green Growth
   },
   {
     id: 'TRD',
@@ -89,7 +89,7 @@ export const OECD_CATEGORIES: OECDCategory[] = [
     id: 'GOV',
     name: 'Government',
     description: 'Public sector, governance, trust in government, e-government',
-    exampleDatasets: ['GOV_2023', 'SNA_TABLE11', 'GGDP'],
+    exampleDatasets: ['GOV_2023', 'SNA_TABLE11', 'GGDP'], // Government at a Glance, Expenditure by Function, Debt-to-GDP
   },
   {
     id: 'SOC',
@@ -119,7 +119,7 @@ export const OECD_CATEGORIES: OECDCategory[] = [
     id: 'FIN',
     name: 'Finance',
     description: 'Financial markets, banking, insurance, pensions',
-    exampleDatasets: ['FDI', 'FI', 'PENSION'],
+    exampleDatasets: ['FDI'], // Foreign Direct Investment
   },
   {
     id: 'TRA',
@@ -199,13 +199,13 @@ export const POPULAR_DATASETS: PopularDataset[] = [
   {
     id: 'GREEN_GROWTH',
     name: 'Green Growth Indicators',
-    description: '⏳ NOT YET IMPLEMENTED - Environmental and economic indicators',
+    description: '✅ AVAILABLE - Environmental and economic indicators for green growth monitoring',
     category: 'ENV',
   },
   {
     id: 'FDI',
     name: 'Foreign Direct Investment',
-    description: '⏳ NOT YET IMPLEMENTED - FDI flows and stocks by country',
+    description: '✅ AVAILABLE - FDI flows and stocks by country and industry',
     category: 'FIN',
   },
   {

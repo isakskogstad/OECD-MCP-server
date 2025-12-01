@@ -96,6 +96,50 @@ export const KNOWN_DATAFLOWS: KnownDataflow[] = [
   },
 
   // ========================================
+  // FINANCE & INVESTMENT (OECD.DAF.INV)
+  // ========================================
+  {
+    id: 'FDI',
+    fullId: 'DSD_FDI@DF_FDI_CTRY_IND_SUMM',
+    agency: 'OECD.DAF.INV',
+    version: '1.0',
+    name: 'Foreign Direct Investment - Country and Industry Summary',
+    description: 'FDI flows and stocks by country and industry. Includes inward and outward FDI positions.',
+    category: 'FIN',
+  },
+
+  // ========================================
+  // GOVERNMENT (OECD.GOV.GIP, OECD.SDD.NAD)
+  // ========================================
+  {
+    id: 'GOV_2023',
+    fullId: 'DSD_GOV@DF_GOV_2023',
+    agency: 'OECD.GOV.GIP',
+    version: '1.0',
+    name: 'Government at a Glance 2023',
+    description: 'Comprehensive government indicators including public finance, budgeting, human resources management, regulatory governance, and open government.',
+    category: 'GOV',
+  },
+  {
+    id: 'SNA_TABLE11',
+    fullId: 'DSD_NASEC10@SNA_TABLE11',
+    agency: 'OECD.SDD.NAD',
+    version: '1.0',
+    name: 'Government Expenditure by Function (COFOG)',
+    description: 'General government expenditure by Classification of the Functions of Government (COFOG). Shows spending on health, education, defense, etc.',
+    category: 'GOV',
+  },
+  {
+    id: 'GGDP',
+    fullId: 'DSD_NASEC10@GGDP',
+    agency: 'OECD.SDD.NAD',
+    version: '1.0',
+    name: 'General Government Debt-to-GDP ratio',
+    description: 'General government gross debt as a percentage of GDP. Key fiscal sustainability indicator.',
+    category: 'GOV',
+  },
+
+  // ========================================
   // CLIMATE & ENVIRONMENT (OECD.CFE.EDS - Functional Urban Areas)
   // ========================================
   {
@@ -168,6 +212,15 @@ export const KNOWN_DATAFLOWS: KnownDataflow[] = [
     version: '1.1',
     name: 'River flooding - Cities and FUAs',
     description: 'Population and built-up exposure to river floods',
+    category: 'ENV',
+  },
+  {
+    id: 'GREEN_GROWTH',
+    fullId: 'DSD_GG@DF_GREEN_GROWTH',
+    agency: 'OECD.ENV.EPI',
+    version: '1.0',
+    name: 'Green Growth Indicators',
+    description: 'Environmental and economic indicators for green growth monitoring. Includes carbon productivity, energy intensity, and renewable energy deployment.',
     category: 'ENV',
   },
 ];
