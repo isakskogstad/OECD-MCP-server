@@ -77,13 +77,13 @@ export const OECD_CATEGORIES: OECDCategory[] = [
     id: 'NRG',
     name: 'Energy',
     description: 'Energy production, consumption, renewables, energy prices',
-    exampleDatasets: ['IEA_ENERGY', 'IEA_REN', 'IEA_PRICES'],
+    exampleDatasets: ['NAT_RES'],
   },
   {
     id: 'AGR',
     name: 'Agriculture and Fisheries',
     description: 'Agricultural production, food security, fisheries',
-    exampleDatasets: ['FISH_AQUA', 'FISH_FLEET', 'PSE'],
+    exampleDatasets: ['AGR_OUTLOOK'],
   },
   {
     id: 'GOV',
@@ -95,13 +95,13 @@ export const OECD_CATEGORIES: OECDCategory[] = [
     id: 'SOC',
     name: 'Social Protection and Well-being',
     description: 'Social spending, inequality, quality of life',
-    exampleDatasets: ['SOCX_AGG', 'IDD', 'BLI'],
+    exampleDatasets: ['IDD', 'SOCX_AGG', 'INCOME_INEQ'],
   },
   {
     id: 'DEV',
     name: 'Development',
     description: 'Development aid, ODA, international cooperation',
-    exampleDatasets: ['TABLE1', 'TABLE2A', 'CRS'],
+    exampleDatasets: ['DAC2A', 'DAC3A', 'ODF'],
   },
   {
     id: 'STI',

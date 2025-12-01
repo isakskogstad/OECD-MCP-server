@@ -223,6 +223,94 @@ export const KNOWN_DATAFLOWS: KnownDataflow[] = [
     description: 'Environmental and economic indicators for green growth monitoring. Includes carbon productivity, energy intensity, and renewable energy deployment.',
     category: 'ENV',
   },
+
+  // ========================================
+  // ENERGY & NATURAL RESOURCES (OECD.SDD.NAD.SEEA)
+  // ========================================
+  {
+    id: 'NAT_RES',
+    fullId: 'DSD_NAT_RES@DF_NAT_RES',
+    agency: 'OECD.SDD.NAD.SEEA',
+    version: '1.0',
+    name: 'Natural Resources - Mineral and Energy',
+    description: 'Natural resource accounts for mineral and energy resources. Part of System of Environmental-Economic Accounting (SEEA).',
+    category: 'NRG',
+  },
+
+  // ========================================
+  // AGRICULTURE & FISHERIES (OECD.TAD.ATM)
+  // ========================================
+  {
+    id: 'AGR_OUTLOOK',
+    fullId: 'DSD_AGR@DF_OUTLOOK_2023_2032',
+    agency: 'OECD.TAD.ATM',
+    version: '1.0',
+    name: 'Agricultural Outlook 2023-2032',
+    description: 'OECD-FAO Agricultural Outlook projections for agricultural production, consumption, trade, and prices. Covers major commodities and regions through 2032.',
+    category: 'AGR',
+  },
+
+  // ========================================
+  // SOCIAL PROTECTION & WELL-BEING (OECD.WISE.INE, OECD.ELS.SPD, OECD.CFE.EDS)
+  // ========================================
+  {
+    id: 'IDD',
+    fullId: 'DSD_WISE_IDD@DF_IDD',
+    agency: 'OECD.WISE.INE',
+    version: '1.0',
+    name: 'Income Distribution Database',
+    description: 'Comprehensive income distribution statistics including Gini coefficients, income quintiles, poverty rates, and income inequality measures by country.',
+    category: 'SOC',
+  },
+  {
+    id: 'SOCX_AGG',
+    fullId: 'DSD_SOCX_AGG@DF_SOCX_AGG',
+    agency: 'OECD.ELS.SPD',
+    version: '1.0',
+    name: 'Social Expenditure - Aggregated Data',
+    description: 'Social spending by country and program area (pensions, healthcare, family benefits, unemployment, housing, etc.). Both public and private social expenditure.',
+    category: 'SOC',
+  },
+  {
+    id: 'INCOME_INEQ',
+    fullId: 'DSD_REG_SOC@DF_INCOME_INEQ',
+    agency: 'OECD.CFE.EDS',
+    version: '1.0',
+    name: 'Income Inequality - Regional Level',
+    description: 'Regional income inequality indicators including Gini coefficient and income ratios at sub-national level.',
+    category: 'SOC',
+  },
+
+  // ========================================
+  // DEVELOPMENT COOPERATION (OECD.DCD.FSD)
+  // ========================================
+  {
+    id: 'DAC2A',
+    fullId: 'DSD_DAC2@DF_DAC2A',
+    agency: 'OECD.DCD.FSD',
+    version: '1.0',
+    name: 'Aid (ODA) Disbursements by Country and Region',
+    description: 'Official Development Assistance (ODA) disbursements from DAC donors by recipient country and region. Part of DAC Table 2.',
+    category: 'DEV',
+  },
+  {
+    id: 'DAC3A',
+    fullId: 'DSD_DAC2@DF_DAC3A',
+    agency: 'OECD.DCD.FSD',
+    version: '1.0',
+    name: 'Aid (ODA) Commitments by Country and Region',
+    description: 'Official Development Assistance (ODA) commitments from DAC donors by recipient country and region. Part of DAC Table 3.',
+    category: 'DEV',
+  },
+  {
+    id: 'ODF',
+    fullId: 'DSD_DAC2@DF_ODF',
+    agency: 'OECD.DCD.FSD',
+    version: '1.0',
+    name: 'Other Official Flows (OOF)',
+    description: 'Official Development Financing beyond ODA - includes other official flows to developing countries.',
+    category: 'DEV',
+  },
 ];
 
 /**
