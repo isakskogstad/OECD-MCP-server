@@ -20,7 +20,6 @@ import {
   GetPromptRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
 import { OECDClient } from './oecd-client.js';
-import { HTTPJSONRPCTransport } from './http-jsonrpc-transport.js';
 
 // Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -610,6 +609,25 @@ Steps:
   return server;
 }
 
+// Helper to call MCP handlers directly (for HTTP/JSON-RPC mode)
+async function callMCPHandler(server: Server, method: string, params?: any) {
+  // Construct proper MCP request object
+  const request = {
+    method,
+    params: params || {}
+  };
+
+  // Access server's internal request handlers
+  const handlers = (server as any)['_requestHandlers'];
+  const handler = handlers?.get(method);
+
+  if (!handler) {
+    throw new Error(`Unknown method: ${method}`);
+  }
+
+  return handler(request);
+}
+
 // Root endpoint - Mirror of GitHub README
 app.get('/', (_req, res) => {
   try {
@@ -674,10 +692,72 @@ app.get('/health', (_req, res) => {
 // ========== MCP ENDPOINTS ==========
 
 /**
- * GET /mcp - SSE transport for MCP (recommended for persistent connections)
- * Used by clients that want real-time server-to-client communication
+ * GET /mcp - Information page about the MCP endpoint
  */
-app.get('/mcp', async (req, res) => {
+app.get('/mcp', (req, res) => {
+  // Check if this is an SSE connection attempt
+  const acceptHeader = req.headers.accept || '';
+  if (acceptHeader.includes('text/event-stream')) {
+    // This is an SSE connection, handle it
+    handleSSEConnection(req, res);
+    return;
+  }
+
+  // Otherwise, return info page
+  res.json({
+    service: 'oecd-mcp-server',
+    version: '3.0.0',
+    description: 'Model Context Protocol server for OECD statistical data',
+    status: 'operational',
+    usage: {
+      method: 'POST',
+      contentType: 'application/json',
+      body: {
+        jsonrpc: '2.0',
+        id: 'request-id',
+        method: 'tools/list | tools/call | resources/list | resources/read | prompts/list | prompts/get',
+        params: {}
+      }
+    },
+    examples: [
+      {
+        description: 'List all available tools',
+        request: {
+          method: 'POST',
+          url: '/mcp',
+          body: { jsonrpc: '2.0', id: 1, method: 'tools/list' }
+        }
+      },
+      {
+        description: 'Call a tool',
+        request: {
+          method: 'POST',
+          url: '/mcp',
+          body: {
+            jsonrpc: '2.0',
+            id: 2,
+            method: 'tools/call',
+            params: {
+              name: 'search_dataflows',
+              arguments: { query: 'GDP', limit: 10 }
+            }
+          }
+        }
+      }
+    ],
+    endpoints: {
+      '/health': 'GET - Health check',
+      '/mcp': 'POST - MCP protocol endpoint (JSON-RPC 2.0)',
+      '/sse': 'GET - Server-Sent Events streaming (legacy)'
+    },
+    documentation: 'https://github.com/isakskogstad/OECD-MCP'
+  });
+});
+
+/**
+ * Handle SSE connection
+ */
+async function handleSSEConnection(req: express.Request, res: express.Response) {
   console.log('MCP SSE connection established via GET /mcp');
 
   const transport = new SSEServerTransport('/mcp', res);
@@ -689,35 +769,146 @@ app.get('/mcp', async (req, res) => {
   req.on('close', () => {
     console.log('MCP SSE connection closed');
   });
-});
+}
 
 /**
  * POST /mcp - Synchronous HTTP/JSON-RPC transport for MCP
- * Accepts JSON-RPC requests in body and returns JSON-RPC responses
- * More compatible with simple HTTP clients
+ * Implements full MCP protocol handshake and request handling
  */
 app.post('/mcp', async (req, res) => {
   console.log('MCP JSON-RPC request via POST /mcp');
 
   try {
-    const transport = new HTTPJSONRPCTransport(req, res);
+    // Detect JSON-RPC 2.0 format
+    const isJsonRpc = 'jsonrpc' in req.body;
+    const requestId = req.body.id;
+    const method = req.body.method;
+    const params = req.body.params;
+
+    if (!method) {
+      const error = { error: 'Method is required' };
+      if (isJsonRpc) {
+        return res.json({
+          jsonrpc: '2.0',
+          id: requestId,
+          error: { code: -32600, message: 'Invalid Request', data: error }
+        });
+      }
+      return res.status(400).json(error);
+    }
+
+    console.log(`[MCP] ${method}`, params ? { params } : {});
+
+    // Handle initialize method (required for standard MCP)
+    if (method === 'initialize') {
+      const initResult = {
+        protocolVersion: '2024-11-05',
+        capabilities: {
+          tools: {},
+          resources: {},
+          prompts: {},
+          logging: {}
+        },
+        serverInfo: {
+          name: 'oecd-mcp-server',
+          version: '3.0.0',
+          description: 'Model Context Protocol server for OECD statistical data via SDMX API'
+        },
+      };
+
+      if (isJsonRpc) {
+        return res.json({
+          jsonrpc: '2.0',
+          id: requestId,
+          result: initResult
+        });
+      }
+      return res.json(initResult);
+    }
+
+    // Handle ping method (health check)
+    if (method === 'ping') {
+      const pingResult = {};
+      if (isJsonRpc) {
+        return res.json({
+          jsonrpc: '2.0',
+          id: requestId,
+          result: pingResult
+        });
+      }
+      return res.json(pingResult);
+    }
+
+    // Handle initialized notification (no response needed)
+    if (method === 'notifications/initialized') {
+      console.log('Client initialization complete');
+      // Notifications don't send responses
+      return res.status(204).send();
+    }
+
+    // Create server instance
     const server = createMCPServer();
 
-    await server.connect(transport);
-    await transport.processRequest(req.body);
-  } catch (error) {
-    console.error('Error processing JSON-RPC request:', error);
-    if (!res.headersSent) {
-      res.status(500).json({
+    // Route to appropriate MCP method
+    let result;
+    switch (method) {
+      case 'tools/list':
+        result = await callMCPHandler(server, 'tools/list');
+        break;
+
+      case 'tools/call':
+        result = await callMCPHandler(server, 'tools/call', params);
+        break;
+
+      case 'resources/list':
+        result = await callMCPHandler(server, 'resources/list');
+        break;
+
+      case 'resources/read':
+        result = await callMCPHandler(server, 'resources/read', params);
+        break;
+
+      case 'prompts/list':
+        result = await callMCPHandler(server, 'prompts/list');
+        break;
+
+      case 'prompts/get':
+        result = await callMCPHandler(server, 'prompts/get', params);
+        break;
+
+      default:
+        const unknownError = { error: `Unknown method: ${method}` };
+        if (isJsonRpc) {
+          return res.json({
+            jsonrpc: '2.0',
+            id: requestId,
+            error: { code: -32601, message: 'Method not found', data: unknownError }
+          });
+        }
+        return res.status(400).json(unknownError);
+    }
+
+    // Return result in appropriate format
+    if (isJsonRpc) {
+      return res.json({
         jsonrpc: '2.0',
-        error: {
-          code: -32603,
-          message: 'Internal error',
-          data: error instanceof Error ? error.message : String(error),
-        },
-        id: null,
+        id: requestId,
+        result
       });
     }
+    res.json(result);
+  } catch (error) {
+    console.error('Error processing MCP request:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
+    if ('jsonrpc' in req.body) {
+      return res.json({
+        jsonrpc: '2.0',
+        id: req.body.id,
+        error: { code: -32603, message: 'Internal error', data: { details: errorMessage } }
+      });
+    }
+    res.status(500).json({ error: 'Internal server error', details: errorMessage });
   }
 });
 
@@ -752,10 +943,10 @@ app.listen(PORT, () => {
   console.log(`\nEndpoints:`);
   console.log(`  Root (README):   http://localhost:${PORT}/`);
   console.log(`  Health check:    http://localhost:${PORT}/health`);
-  console.log(`  MCP (SSE):       GET  http://localhost:${PORT}/mcp`);
   console.log(`  MCP (JSON-RPC):  POST http://localhost:${PORT}/mcp`);
+  console.log(`  MCP (SSE):       GET  http://localhost:${PORT}/mcp (with Accept: text/event-stream)`);
   console.log(`  Legacy SSE:      GET  http://localhost:${PORT}/sse`);
   console.log(`\nTransport modes:`);
-  console.log(`  - SSE (Server-Sent Events):  Use GET /mcp for persistent connections`);
-  console.log(`  - HTTP/JSON-RPC:             Use POST /mcp for synchronous requests`);
+  console.log(`  - HTTP/JSON-RPC:  Use POST /mcp for synchronous requests (ChatGPT, Claude, etc.)`);
+  console.log(`  - SSE:            Use GET /mcp with SSE headers for persistent connections`);
 });
