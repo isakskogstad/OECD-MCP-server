@@ -1,6 +1,6 @@
 {
   "name": "oecd-mcp",
-  "version": "3.0.1",
+  "version": "4.0.0",
   "description": "OECD MCP - Model Context Protocol server for OECD statistical data via SDMX API",
   "mcpName": "io.github.isakskogstad/oecd-mcp",
   "main": "dist/index.js",
@@ -29,9 +29,7 @@
   "license": "MIT",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
-    "@supabase/supabase-js": "^2.49.4",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
     "express": "^4.18.2",
     "marked": "^17.0.1",
     "node-fetch": "^3.3.2",

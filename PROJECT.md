@@ -3,20 +3,26 @@
 ## Overview
 Model Context Protocol (MCP) server providing access to OECD statistical data via SDMX API. Enables AI assistants to query 5,000+ datasets across 17 categories including economy, health, education, environment, trade, and more.
 
+**All data is fetched directly from OECD API - no caching or storage.**
+
 ## Tech Stack
 - **Runtime:** Node.js 20 (TypeScript)
 - **Framework:** Express.js
 - **MCP SDK:** @modelcontextprotocol/sdk ^1.0.0
-- **Transport:** SSE (Server-Sent Events) over HTTP
+- **Transport:** SSE (Server-Sent Events) over HTTP + HTTP/JSON-RPC
 - **Testing:** Vitest
 - **Deployment:** Docker + Render (free tier)
 
 ## Project Structure
 - `src/` - Source code
   - `http-server.ts` - Main HTTP server with SSE transport
-  - `http-jsonrpc-transport.ts` - Custom HTTP/JSON-RPC transport
   - `index.ts` - STDIO transport for local usage
-  - `oecd-client.ts` - OECD SDMX API client
+  - `oecd-client.ts` - High-level OECD client
+  - `sdmx-client.ts` - OECD SDMX API client
+  - `tools.ts` - MCP tool definitions and execution
+  - `types.ts` - TypeScript type definitions
+  - `validation.ts` - Input validation
+  - `known-dataflows.ts` - Known dataflow metadata
 - `tests/` - Test files
 - `Dockerfile` - Container configuration
 - `render.yaml` - Render deployment config
@@ -54,39 +60,33 @@ Model Context Protocol (MCP) server providing access to OECD statistical data vi
 - **Plan:** Free tier (cold starts after inactivity)
 - **Region:** Frankfurt
 
-## MCP Registry Publishing ✅ PUBLISHED
+## MCP Registry Publishing
 - **Server Name:** io.github.isakskogstad/oecd-mcp
 - **npm Package:** oecd-mcp
-- **Version:** 3.0.0
-- **Status:** 🟢 Active in MCP Registry & npm
-- **Published:** 2025-11-30 23:53:18 UTC
-- **npm Published:** 2025-12-01 00:04:00 UTC
+- **Version:** 4.0.0
+- **Status:** Active in MCP Registry & npm
 - **Deployment Type:** Remote + npm package
 - **Registry URL:** https://registry.modelcontextprotocol.io/v0/servers?search=io.github.isakskogstad/oecd-mcp
 - **npm URL:** https://www.npmjs.com/package/oecd-mcp
-- **Registry File:** server.json
 
 **Available via:**
 - npm package: `npx oecd-mcp`
 - Streamable HTTP: https://oecd-mcp-server.onrender.com/mcp
 - SSE (legacy): https://oecd-mcp-server.onrender.com/sse
 
-## Known Issues (RESOLVED ✅)
+## Architecture (v4.0.0)
+**Direct API Only - No Caching/Storage**
 
-### ✅ FIXED: MCP Transport Support
-**Status:** Resolved as of 2025-11-30
+All requests go directly to OECD SDMX API:
+```
+Client Request → MCP Server → OECD SDMX API → Response
+```
 
-**What was fixed:**
-1. ✅ Added HTTP/JSON-RPC transport for synchronous requests
-2. ✅ POST /mcp now properly handles MCP protocol
-3. ✅ Both SSE (GET) and JSON-RPC (POST) work correctly
-4. ✅ Compatible with ChatGPT, Claude, and all HTTP clients
-
-**Remaining consideration:**
-- **Cold Starts** - Free tier still spins down after 15 min inactivity
-  - First request after idle period takes 30-60s (container startup)
-  - Subsequent requests are fast (~100-150ms)
-  - Upgrade to paid plan ($7/mo) for always-on performance
+Benefits:
+- Simpler architecture
+- No external dependencies (no Supabase)
+- Always fresh data
+- Lower operational complexity
 
 ## Build Commands
 ```bash
@@ -101,11 +101,20 @@ npm test            # Run tests
 - PORT=3000
 
 ## Backup Info
-- Last session backup: 2025-11-30_23-30-00_session-start
+- Last session backup: 2025-12-01_15-00-00_session-start
 - Backup retention policy: Manual cleanup
 
+## Changelog
+### v4.0.0 (2025-12-01)
+- **BREAKING:** Removed Supabase integration completely
+- All data now fetched directly from OECD API
+- Simplified architecture - no external dependencies
+- Removed: supabase-cache.ts, Supabase SDK, all cache-related code
+
+### v3.0.x
+- Initial Supabase cache integration (removed in v4.0.0)
+
 ## Notes
-- Server is working correctly, responds in ~100-150ms when warm
+- Server responds in ~100-150ms when warm
 - Cold starts on free tier take 30-60 seconds
-- SSE transport requires GET request, not POST
 - For reliable performance, consider paid Render plan or local deployment

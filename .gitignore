@@ -30,3 +30,13 @@ src/types/generated/
 # MCP Registry tokens
 .mcpregistry_github_token
 .mcpregistry_registry_token
+
+# Backups
+backups/
+
+# Session files
+SESSION-SUMMARY.md
+
+# Local documentation
+DOCUMENTATION*/
+

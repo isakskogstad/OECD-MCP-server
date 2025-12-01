@@ -11,7 +11,3 @@ services:
         value: production
       - key: PORT
         value: 3000
-      - key: SUPABASE_URL
-        sync: false  # Set in Render Dashboard
-      - key: SUPABASE_KEY
-        sync: false  # Set in Render Dashboard

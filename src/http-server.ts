@@ -38,12 +38,8 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Initialize OECD client with Supabase cache (if configured)
-const client = new OECDClient({
-  enableCache: Boolean(process.env.SUPABASE_URL && process.env.SUPABASE_KEY),
-  supabaseUrl: process.env.SUPABASE_URL,
-  supabaseKey: process.env.SUPABASE_KEY,
-});
+// Initialize OECD client - direct API calls only, no caching
+const client = new OECDClient();
 
 /**
  * Create and configure an MCP server instance with all handlers
@@ -52,7 +48,7 @@ function createMCPServer(): Server {
   const server = new Server(
     {
       name: 'oecd-mcp-server',
-      version: '3.0.2',
+      version: '4.0.0',
     },
     {
       capabilities: {
@@ -386,7 +382,7 @@ app.get('/health', (_req, res) => {
   res.json({
     status: 'healthy',
     service: 'oecd-mcp-server',
-    version: '3.0.2',
+    version: '4.0.0',
     timestamp: new Date().toISOString(),
   });
 });
@@ -408,7 +404,7 @@ app.get('/mcp', (req, res) => {
   // Otherwise, return info page
   res.json({
     service: 'oecd-mcp-server',
-    version: '3.0.2',
+    version: '4.0.0',
     description: 'Model Context Protocol server for OECD statistical data',
     status: 'operational',
     usage: {
@@ -513,7 +509,7 @@ app.post('/mcp', async (req, res) => {
         },
         serverInfo: {
           name: 'oecd-mcp-server',
-          version: '3.0.2',
+          version: '4.0.0',
           description: 'Model Context Protocol server for OECD statistical data via SDMX API'
         },
       };
